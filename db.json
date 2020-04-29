@@ -1,19 +1,11 @@
 {
   "todo": [
     {
-      "name": "Đi chợ"
-    },
-    {
-      "name": "Nấu cơm"
-    },
-    {
-      "name": "Rửa bát"
-    },
-    {
+      "id": 4,
       "name": "Học Code tại CodersX"
     },
     {
-      "name": "Fix bug"
+      "name": "hi"
     }
   ]
 }

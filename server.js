@@ -29,11 +29,20 @@ app.get("/todos", (req, res) => {
     users: db.get("todo").value()
   });
 });
+
+
+
 app.post("/todos/create", (req, res) => {
   var name = req.body;
   db.get("todo").push(name).write();
   res.redirect("back");
 });
+
+app.get('/todos/:id/delete', (req,res) => {
+  var id = parseInt(req.params.id);
+  db.get('todo').remove({id: id}).write();
+  res.redirect('/todos')
+})
 
 // listen for requests :)
 app.listen(process.env.PORT, () => {

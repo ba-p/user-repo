@@ -1,4 +1,7 @@
 h2 Todo
 ul
   each user in users
-    li=user.name
+    li
+      span=user.name
+      span &nbsp
+      a(href = '/todos/' + user.id + '/delete') Delete
