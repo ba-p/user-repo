@@ -1,5 +1,7 @@
-h2 Search
-
+h3 I love CodersX
 ul
   each user in users
     li=user.name
+form(action='todos/create', method='POST')
+  input(name='name')
+  button Create

@@ -3,35 +3,37 @@
 
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-const express = require('express');
+const express = require("express");
 const app = express();
-app.set('view engine','pug');
-app.set('views','./views');
+const bodyParser = require("body-parser");
+var low = require("lowdb");
+var FileSync = require("lowdb/adapters/FileSync");
+var adapter = new FileSync("db.json");
+var db = low(adapter);
+db.defaults({ todo: [] }).write();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-var todo = [
-  {name: 'Đi chợ'},
-  {name: 'Nấu cơm'},
-  {name: 'Rửa bát'},
-  {name: 'Học Code tại CodersX'}];
+app.set("view engine", "pug");
+app.set("views", "./views");
+
 // https://expressjs.com/en/starter/basic-routing.html
-app.get('/', (request, response) => {
-  response.send('I love CodersX');
+app.get("/", (request, response) => {
+  response.render("todos", {
+    users: db.get("todo").value()
+  });
 });
 
-app.get('/search',(req, res) => {
-  res.render('search');
-})
-
-app.get('/todos', (req, res) => {
-  var q = req.query.name;
-  var rs = todo.filter(function(x){
-    return x.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+app.get("/todos", (req, res) => {
+  res.render("index", {
+    users: db.get("todo").value()
   });
-  res.render('index',{
-    users: rs
-  })
-})
-
+});
+app.post("/todos/create", (req, res) => {
+  var name = req.body;
+  db.get("todo").push(name).write();
+  res.redirect("back");
+});
 
 // listen for requests :)
 app.listen(process.env.PORT, () => {
